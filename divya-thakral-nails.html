@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Divya Thakral Nails — Premium Nail Studio, Panipat</title>
+<meta name="description" content="Panipat's most trusted nail studio. Gel extensions, acrylic nails, bridal packages, nail art & more by Divya Thakral.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --rose:#C6A07C;
+  --rose-light:#E8D5C0;
+  --rose-glow:#D4A574;
+  --burgundy:#6B2D3E;
+  --burgundy-deep:#4A1E2B;
+  --cream:#FDF8F3;
+  --cream-warm:#FAF0E6;
+  --dark:#1A0E12;
+  --dark-soft:#2A1A1F;
+  --blush:#F5E1D0;
+  --mauve:#9E7B8F;
+  --gold:#C9A84C;
+  --white:#FFFFFF;
+  --text-dark:#2A1A1F;
+  --text-body:#5A4550;
+  --text-light:#8A7580;
+}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--cream);
+  color:var(--text-body);
+  line-height:1.7;
+  overflow-x:hidden;
+  font-weight:400;
+}
+h1,h2,h3,h4,h5{font-family:'Cormorant Garamond',serif;color:var(--text-dark);font-weight:400;line-height:1.2}
+
+/* ===== THREE.JS CANVAS ===== */
+#three-bg{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  z-index:0;pointer-events:none;
+}
+
+/* ===== NAVBAR ===== */
+.navbar{
+  position:fixed;top:0;left:0;width:100%;z-index:1000;
+  padding:18px 40px;
+  display:flex;align-items:center;justify-content:space-between;
+  transition:all 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+.navbar.scrolled{
+  background:rgba(253,248,243,0.92);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  box-shadow:0 2px 40px rgba(107,45,62,0.08);
+  padding:12px 40px;
+}
+.nav-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.6rem;font-weight:600;
+  color:var(--burgundy);
+  letter-spacing:0.5px;
+  text-decoration:none;
+}
+.nav-logo span{color:var(--rose);font-weight:300}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{
+  text-decoration:none;color:var(--text-body);
+  font-size:0.85rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;
+  position:relative;transition:color 0.3s;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-4px;left:0;width:0;height:1.5px;
+  background:var(--rose);transition:width 0.3s;
+}
+.nav-links a:hover{color:var(--burgundy)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{
+  background:var(--burgundy);color:var(--cream);
+  padding:10px 28px;border-radius:30px;
+  text-decoration:none;font-size:0.8rem;
+  font-weight:500;letter-spacing:1.5px;text-transform:uppercase;
+  transition:all 0.3s;border:1.5px solid var(--burgundy);
+}
+.nav-cta:hover{background:transparent;color:var(--burgundy)}
+
+/* Mobile menu */
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:1001;background:none;border:none;padding:5px}
+.hamburger span{width:26px;height:2px;background:var(--burgundy);transition:all 0.3s;display:block}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+.mobile-menu{
+  display:none;position:fixed;top:0;right:-100%;width:75%;max-width:320px;
+  height:100vh;background:var(--cream);z-index:999;
+  padding:100px 40px 40px;
+  transition:right 0.4s cubic-bezier(0.4,0,0.2,1);
+  box-shadow:-10px 0 60px rgba(0,0,0,0.1);
+}
+.mobile-menu.active{right:0}
+.mobile-menu a{
+  display:block;font-family:'Cormorant Garamond',serif;
+  font-size:1.5rem;color:var(--text-dark);text-decoration:none;
+  padding:14px 0;border-bottom:1px solid var(--rose-light);
+  transition:color 0.3s;
+}
+.mobile-menu a:hover{color:var(--burgundy)}
+.mobile-overlay{
+  display:none;position:fixed;top:0;left:0;width:100%;height:100%;
+  background:rgba(26,14,18,0.4);z-index:998;opacity:0;
+  transition:opacity 0.3s;
+}
+.mobile-overlay.active{opacity:1}
+
+/* ===== SECTIONS COMMON ===== */
+section{position:relative;z-index:1}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+.section-badge{
+  display:inline-block;
+  font-size:0.7rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;
+  color:var(--rose);
+  margin-bottom:16px;
+  position:relative;
+  padding-left:40px;
+}
+.section-badge::before{
+  content:'';position:absolute;left:0;top:50%;
+  width:28px;height:1.5px;background:var(--rose);
+}
+.section-title{font-size:clamp(2rem,5vw,3.4rem);margin-bottom:20px;color:var(--text-dark)}
+.section-subtitle{
+  font-size:1.05rem;color:var(--text-light);
+  max-width:560px;line-height:1.8;font-weight:300;
+}
+
+/* Scroll reveal */
+.reveal{opacity:0;transform:translateY(50px);transition:all 0.9s cubic-bezier(0.4,0,0.2,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-left{opacity:0;transform:translateX(-60px);transition:all 0.9s cubic-bezier(0.4,0,0.2,1)}
+.reveal-left.visible{opacity:1;transform:translateX(0)}
+.reveal-right{opacity:0;transform:translateX(60px);transition:all 0.9s cubic-bezier(0.4,0,0.2,1)}
+.reveal-right.visible{opacity:1;transform:translateX(0)}
+.reveal-scale{opacity:0;transform:scale(0.9);transition:all 0.9s cubic-bezier(0.4,0,0.2,1)}
+.reveal-scale.visible{opacity:1;transform:scale(1)}
+
+/* ===== HERO ===== */
+.hero{
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  text-align:center;
+  position:relative;
+  padding:120px 24px 80px;
+  background:linear-gradient(180deg,rgba(253,248,243,0.3) 0%,rgba(253,248,243,0.85) 100%);
+}
+.hero-content{max-width:800px;position:relative;z-index:2}
+.hero-sparkle{
+  font-size:0.75rem;letter-spacing:6px;text-transform:uppercase;
+  color:var(--rose);font-weight:500;margin-bottom:24px;
+  display:flex;align-items:center;justify-content:center;gap:12px;
+}
+.hero-sparkle::before,.hero-sparkle::after{content:'✦';font-size:0.6rem}
+.hero h1{
+  font-size:clamp(2.8rem,7vw,5.5rem);
+  font-weight:300;color:var(--text-dark);
+  margin-bottom:12px;letter-spacing:-1px;
+}
+.hero h1 em{font-style:italic;font-weight:300;color:var(--burgundy)}
+.hero-tagline{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(1.1rem,2.5vw,1.5rem);
+  font-style:italic;color:var(--mauve);
+  margin-bottom:36px;font-weight:300;
+}
+.hero-desc{
+  font-size:1rem;color:var(--text-light);
+  max-width:520px;margin:0 auto 44px;
+  line-height:1.9;font-weight:300;
+}
+.hero-buttons{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.btn-primary{
+  background:var(--burgundy);color:var(--cream);
+  padding:16px 40px;border-radius:50px;
+  text-decoration:none;font-size:0.8rem;
+  font-weight:500;letter-spacing:2px;text-transform:uppercase;
+  transition:all 0.4s;border:2px solid var(--burgundy);
+  display:inline-flex;align-items:center;gap:8px;
+}
+.btn-primary:hover{background:var(--burgundy-deep);border-color:var(--burgundy-deep);transform:translateY(-2px);box-shadow:0 12px 40px rgba(107,45,62,0.25)}
+.btn-secondary{
+  background:transparent;color:var(--burgundy);
+  padding:16px 40px;border-radius:50px;
+  text-decoration:none;font-size:0.8rem;
+  font-weight:500;letter-spacing:2px;text-transform:uppercase;
+  transition:all 0.4s;border:2px solid var(--rose-light);
+}
+.btn-secondary:hover{border-color:var(--burgundy);background:rgba(107,45,62,0.05)}
+
+.hero-scroll{
+  position:absolute;bottom:40px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  color:var(--text-light);font-size:0.7rem;letter-spacing:3px;text-transform:uppercase;
+}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--rose),transparent);animation:scrollPulse 2s infinite}
+@keyframes scrollPulse{0%,100%{opacity:0.3;height:40px}50%{opacity:1;height:55px}}
+
+/* ===== MARQUEE ===== */
+.marquee-section{
+  padding:40px 0;
+  background:var(--burgundy);
+  overflow:hidden;position:relative;z-index:1;
+}
+.marquee-track{
+  display:flex;gap:60px;
+  animation:marquee 25s linear infinite;
+  width:max-content;
+}
+.marquee-item{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.3rem;font-style:italic;
+  color:var(--rose-light);white-space:nowrap;
+  display:flex;align-items:center;gap:60px;
+}
+.marquee-item::after{content:'✦';font-size:0.5rem;color:var(--rose);font-style:normal}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ===== ABOUT ===== */
+.about{padding:120px 0;background:var(--cream)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.about-visual{position:relative}
+.about-img-main{
+  width:100%;aspect-ratio:4/5;
+  background:linear-gradient(135deg,var(--rose-light),var(--blush));
+  border-radius:200px 200px 20px 20px;
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.about-img-main .nail-icon{font-size:8rem;opacity:0.15}
+.about-float-card{
+  position:absolute;bottom:-20px;right:-20px;
+  background:var(--white);padding:28px 32px;
+  border-radius:16px;
+  box-shadow:0 20px 60px rgba(107,45,62,0.12);
+}
+.about-float-card .number{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.8rem;font-weight:600;color:var(--burgundy);line-height:1;
+}
+.about-float-card .label{font-size:0.75rem;color:var(--text-light);letter-spacing:1px;text-transform:uppercase;margin-top:4px}
+.about-content .section-subtitle{margin-bottom:32px}
+.about-features{display:flex;flex-direction:column;gap:20px;margin-top:32px}
+.about-feature{display:flex;align-items:flex-start;gap:16px}
+.about-feature-icon{
+  width:44px;height:44px;border-radius:12px;
+  background:linear-gradient(135deg,var(--rose-light),var(--blush));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;flex-shrink:0;
+}
+.about-feature-text h4{font-size:1rem;font-weight:500;font-family:'Outfit',sans-serif;margin-bottom:2px;color:var(--text-dark)}
+.about-feature-text p{font-size:0.88rem;color:var(--text-light);line-height:1.6}
+
+/* ===== SERVICES ===== */
+.services{padding:120px 0;background:var(--cream-warm);position:relative}
+.services::before{
+  content:'';position:absolute;top:0;left:0;width:100%;height:100%;
+  background:radial-gradient(ellipse at 20% 50%,rgba(198,160,124,0.08) 0%,transparent 60%);
+  pointer-events:none;
+}
+.services-header{text-align:center;margin-bottom:72px}
+.services-header .section-subtitle{margin:0 auto}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.service-card{
+  background:var(--white);border-radius:20px;
+  padding:40px 32px;position:relative;overflow:hidden;
+  transition:all 0.5s cubic-bezier(0.4,0,0.2,1);
+  border:1px solid rgba(198,160,124,0.15);cursor:default;
+}
+.service-card::before{
+  content:'';position:absolute;top:0;left:0;width:100%;height:3px;
+  background:linear-gradient(90deg,var(--rose),var(--burgundy));
+  transform:scaleX(0);transform-origin:left;transition:transform 0.5s;
+}
+.service-card:hover{transform:translateY(-8px);box-shadow:0 24px 64px rgba(107,45,62,0.1)}
+.service-card:hover::before{transform:scaleX(1)}
+.service-icon{
+  width:56px;height:56px;border-radius:16px;
+  background:linear-gradient(135deg,var(--cream-warm),var(--blush));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;margin-bottom:24px;
+}
+.service-card h3{font-size:1.4rem;margin-bottom:12px;font-family:'Cormorant Garamond',serif;font-weight:600}
+.service-card p{font-size:0.9rem;color:var(--text-light);line-height:1.7;margin-bottom:16px}
+.service-price{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.2rem;font-weight:600;color:var(--burgundy);
+}
+.service-price span{font-size:0.75rem;font-weight:400;color:var(--text-light);font-family:'Outfit',sans-serif}
+.service-details{margin-top:16px;padding-top:16px;border-top:1px solid rgba(198,160,124,0.15)}
+.service-details li{
+  list-style:none;font-size:0.82rem;color:var(--text-light);
+  padding:5px 0;padding-left:18px;position:relative;
+}
+.service-details li::before{content:'✓';position:absolute;left:0;color:var(--rose);font-size:0.7rem;font-weight:700}
+
+/* ===== WHY CHOOSE ===== */
+.why-choose{
+  padding:120px 0;background:var(--burgundy-deep);
+  color:var(--cream);position:relative;overflow:hidden;
+}
+.why-choose::before{
+  content:'';position:absolute;top:-50%;right:-20%;
+  width:600px;height:600px;
+  background:radial-gradient(circle,rgba(198,160,124,0.1) 0%,transparent 70%);
+  border-radius:50%;
+}
+.why-choose .section-badge{color:var(--rose-light)}
+.why-choose .section-title{color:var(--cream)}
+.why-choose .section-subtitle{color:rgba(232,213,192,0.7)}
+.why-header{text-align:center;margin-bottom:72px}
+.why-header .section-subtitle{margin:0 auto}
+.why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px}
+.why-card{text-align:center;padding:40px 24px}
+.why-card-icon{
+  width:72px;height:72px;margin:0 auto 24px;border-radius:50%;
+  background:rgba(198,160,124,0.1);border:1px solid rgba(198,160,124,0.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.6rem;transition:all 0.4s;
+}
+.why-card:hover .why-card-icon{background:rgba(198,160,124,0.2);transform:scale(1.08)}
+.why-card h3{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--cream);margin-bottom:12px}
+.why-card p{font-size:0.85rem;color:rgba(232,213,192,0.6);line-height:1.7}
+
+/* ===== PROCESS ===== */
+.process{padding:120px 0;background:var(--cream)}
+.process-header{text-align:center;margin-bottom:72px}
+.process-header .section-subtitle{margin:0 auto}
+.process-timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.process-timeline::before{
+  content:'';position:absolute;top:44px;left:12.5%;width:75%;
+  height:2px;background:linear-gradient(90deg,var(--rose-light),var(--burgundy),var(--rose-light));
+}
+.process-step{text-align:center;padding:0 20px;position:relative}
+.process-num{
+  width:88px;height:88px;margin:0 auto 28px;border-radius:50%;
+  background:var(--white);border:2px solid var(--rose-light);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.8rem;font-weight:600;color:var(--burgundy);
+  position:relative;z-index:1;transition:all 0.4s;
+}
+.process-step:hover .process-num{background:var(--burgundy);color:var(--cream);border-color:var(--burgundy);transform:scale(1.08)}
+.process-step h3{font-family:'Cormorant Garamond',serif;font-size:1.2rem;margin-bottom:8px;font-weight:600}
+.process-step p{font-size:0.85rem;color:var(--text-light);line-height:1.6}
+
+/* ===== GALLERY ===== */
+.gallery{padding:120px 0;background:var(--cream-warm)}
+.gallery-header{text-align:center;margin-bottom:60px}
+.gallery-header .section-subtitle{margin:0 auto}
+.gallery-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  grid-template-rows:repeat(2,240px);gap:16px;
+}
+.gallery-item{border-radius:16px;overflow:hidden;position:relative;cursor:pointer;transition:all 0.5s}
+.gallery-item:hover{transform:scale(1.02)}
+.gallery-item:nth-child(1){grid-column:span 2;grid-row:span 2}
+.gallery-item .g-inner{
+  width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+  font-size:3rem;transition:all 0.5s;position:relative;
+}
+.gallery-item:nth-child(1) .g-inner{background:linear-gradient(135deg,#F5E1D0,#E8C5B0)}
+.gallery-item:nth-child(2) .g-inner{background:linear-gradient(135deg,#E8D5C0,#D4A574)}
+.gallery-item:nth-child(3) .g-inner{background:linear-gradient(135deg,#6B2D3E,#9E4A60);color:var(--cream)}
+.gallery-item:nth-child(4) .g-inner{background:linear-gradient(135deg,#C6A07C,#E8D5C0)}
+.gallery-item:nth-child(5) .g-inner{background:linear-gradient(135deg,#4A1E2B,#6B2D3E);color:var(--cream)}
+.gallery-item .g-label{
+  position:absolute;bottom:16px;left:16px;
+  background:rgba(255,255,255,0.9);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  padding:8px 16px;border-radius:8px;
+  font-size:0.75rem;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--text-dark);
+}
+.gallery-item:nth-child(3) .g-label,.gallery-item:nth-child(5) .g-label{background:rgba(0,0,0,0.5);color:var(--cream)}
+
+/* ===== BRIDAL ===== */
+.bridal{padding:120px 0;background:linear-gradient(135deg,var(--cream) 0%,var(--blush) 100%);position:relative;overflow:hidden}
+.bridal::after{
+  content:'';position:absolute;bottom:-100px;right:-100px;
+  width:400px;height:400px;
+  background:radial-gradient(circle,rgba(198,160,124,0.15) 0%,transparent 70%);
+  border-radius:50%;
+}
+.bridal-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.bridal-content .section-subtitle{margin-bottom:32px}
+.bridal-packages{display:flex;flex-direction:column;gap:20px;margin-top:36px}
+.bridal-pkg{
+  background:var(--white);border-radius:16px;padding:24px 28px;
+  display:flex;align-items:center;justify-content:space-between;
+  border:1px solid rgba(198,160,124,0.15);transition:all 0.4s;
+}
+.bridal-pkg:hover{border-color:var(--rose);box-shadow:0 12px 40px rgba(107,45,62,0.08);transform:translateX(8px)}
+.bridal-pkg-info h4{font-size:1.1rem;font-family:'Cormorant Garamond',serif;font-weight:600;margin-bottom:4px}
+.bridal-pkg-info p{font-size:0.82rem;color:var(--text-light)}
+.bridal-pkg-price{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:var(--burgundy);white-space:nowrap}
+.bridal-visual{position:relative}
+.bridal-img{
+  width:100%;aspect-ratio:3/4;
+  background:linear-gradient(135deg,var(--rose-light),var(--burgundy));
+  border-radius:20px;display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.bridal-img .bridal-emoji{font-size:6rem;opacity:0.2}
+.bridal-badge{
+  position:absolute;top:24px;right:24px;
+  background:var(--gold);color:var(--dark);
+  padding:8px 20px;border-radius:20px;
+  font-size:0.7rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;
+}
+
+/* ===== TESTIMONIALS ===== */
+.testimonials{padding:120px 0;background:var(--cream)}
+.testi-header{text-align:center;margin-bottom:72px}
+.testi-header .section-subtitle{margin:0 auto}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.testi-card{
+  background:var(--white);border-radius:20px;
+  padding:40px 32px;position:relative;
+  border:1px solid rgba(198,160,124,0.1);transition:all 0.4s;
+}
+.testi-card:hover{box-shadow:0 20px 60px rgba(107,45,62,0.08);transform:translateY(-4px)}
+.testi-quote{font-family:'Cormorant Garamond',serif;font-size:3rem;color:var(--rose-light);line-height:1;margin-bottom:16px}
+.testi-card>p{font-size:0.92rem;color:var(--text-body);line-height:1.8;margin-bottom:24px;font-style:italic}
+.testi-author{display:flex;align-items:center;gap:14px}
+.testi-avatar{
+  width:44px;height:44px;border-radius:50%;
+  background:linear-gradient(135deg,var(--rose-light),var(--blush));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;font-weight:600;color:var(--burgundy);font-family:'Cormorant Garamond',serif;
+}
+.testi-author-info h4{font-size:0.9rem;font-weight:500;font-family:'Outfit',sans-serif;color:var(--text-dark)}
+.testi-author-info span{font-size:0.75rem;color:var(--text-light)}
+.testi-stars{color:var(--gold);font-size:0.8rem;letter-spacing:2px;margin-bottom:16px}
+
+/* ===== PRICING ===== */
+.pricing{padding:120px 0;background:var(--cream-warm)}
+.pricing-header{text-align:center;margin-bottom:72px}
+.pricing-header .section-subtitle{margin:0 auto}
+.pricing-table{
+  max-width:800px;margin:0 auto;
+  background:var(--white);border-radius:24px;overflow:hidden;
+  border:1px solid rgba(198,160,124,0.15);
+  box-shadow:0 20px 60px rgba(107,45,62,0.06);
+}
+.pricing-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:22px 36px;border-bottom:1px solid rgba(198,160,124,0.1);transition:background 0.3s;
+}
+.pricing-row:last-child{border-bottom:none}
+.pricing-row:hover{background:rgba(198,160,124,0.04)}
+.pricing-row.header{background:var(--burgundy);padding:18px 36px}
+.pricing-row.header span{color:var(--cream);font-size:0.75rem;font-weight:600;letter-spacing:2px;text-transform:uppercase}
+.pricing-service{font-size:0.95rem;color:var(--text-dark);font-weight:400}
+.pricing-range{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--burgundy);text-align:right}
+.pricing-note{text-align:center;padding:32px;font-size:0.85rem;color:var(--text-light);font-style:italic}
+
+/* ===== FAQ ===== */
+.faq{padding:120px 0;background:var(--cream)}
+.faq-header{text-align:center;margin-bottom:60px}
+.faq-header .section-subtitle{margin:0 auto}
+.faq-list{max-width:760px;margin:0 auto}
+.faq-item{border-bottom:1px solid rgba(198,160,124,0.2);overflow:hidden}
+.faq-q{
+  padding:24px 0;cursor:pointer;
+  display:flex;align-items:center;justify-content:space-between;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.2rem;color:var(--text-dark);font-weight:500;
+  transition:color 0.3s;user-select:none;
+}
+.faq-q:hover{color:var(--burgundy)}
+.faq-q .faq-toggle{font-size:1.4rem;color:var(--rose);transition:transform 0.3s;font-family:'Outfit',sans-serif;font-weight:300}
+.faq-item.active .faq-toggle{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height 0.5s cubic-bezier(0.4,0,0.2,1),padding 0.3s}
+.faq-item.active .faq-a{max-height:300px;padding-bottom:24px}
+.faq-a p{font-size:0.9rem;color:var(--text-light);line-height:1.8}
+
+/* ===== CTA ===== */
+.cta-section{
+  padding:100px 0;
+  background:linear-gradient(135deg,var(--burgundy-deep) 0%,var(--burgundy) 100%);
+  text-align:center;position:relative;overflow:hidden;
+}
+.cta-section::before{
+  content:'';position:absolute;top:-50%;left:50%;transform:translateX(-50%);
+  width:800px;height:800px;
+  background:radial-gradient(circle,rgba(198,160,124,0.08) 0%,transparent 70%);
+  border-radius:50%;
+}
+.cta-section h2{font-size:clamp(2rem,5vw,3.2rem);color:var(--cream);margin-bottom:16px;font-weight:300}
+.cta-section h2 em{font-style:italic;color:var(--rose-light)}
+.cta-section p{color:rgba(232,213,192,0.7);font-size:1rem;max-width:480px;margin:0 auto 40px;line-height:1.8}
+.cta-buttons{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.btn-light{
+  background:var(--cream);color:var(--burgundy);
+  padding:16px 40px;border-radius:50px;
+  text-decoration:none;font-size:0.8rem;
+  font-weight:500;letter-spacing:2px;text-transform:uppercase;
+  transition:all 0.4s;border:2px solid var(--cream);
+}
+.btn-light:hover{background:transparent;color:var(--cream)}
+.btn-outline-light{
+  background:transparent;color:var(--cream);
+  padding:16px 40px;border-radius:50px;
+  text-decoration:none;font-size:0.8rem;
+  font-weight:500;letter-spacing:2px;text-transform:uppercase;
+  transition:all 0.4s;border:2px solid rgba(232,213,192,0.3);
+}
+.btn-outline-light:hover{border-color:var(--cream);background:rgba(255,255,255,0.05)}
+
+/* ===== CONTACT ===== */
+.contact{padding:120px 0;background:var(--cream-warm)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px}
+.contact-info{display:flex;flex-direction:column;gap:32px}
+.contact-icon{
+  width:52px;height:52px;border-radius:14px;
+  background:linear-gradient(135deg,var(--rose-light),var(--blush));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;flex-shrink:0;
+}
+.contact-item{display:flex;align-items:flex-start;gap:18px}
+.contact-item h4{font-size:1rem;font-weight:500;font-family:'Outfit',sans-serif;color:var(--text-dark);margin-bottom:4px}
+.contact-item p{font-size:0.9rem;color:var(--text-light);line-height:1.6}
+.contact-item a{color:var(--burgundy);text-decoration:none;font-weight:500}
+.contact-item a:hover{text-decoration:underline}
+.contact-form{
+  background:var(--white);border-radius:24px;padding:44px;
+  border:1px solid rgba(198,160,124,0.15);
+}
+.contact-form h3{font-family:'Cormorant Garamond',serif;font-size:1.6rem;margin-bottom:28px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.form-group{margin-bottom:16px}
+.form-group label{
+  display:block;font-size:0.75rem;font-weight:500;
+  letter-spacing:1px;text-transform:uppercase;
+  color:var(--text-light);margin-bottom:8px;
+}
+.form-group input,.form-group select,.form-group textarea{
+  width:100%;padding:14px 18px;
+  border:1.5px solid rgba(198,160,124,0.25);
+  border-radius:12px;font-family:'Outfit',sans-serif;
+  font-size:0.9rem;color:var(--text-dark);background:var(--cream);
+  transition:all 0.3s;outline:none;
+}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{
+  border-color:var(--rose);box-shadow:0 0 0 4px rgba(198,160,124,0.1);
+}
+.form-group textarea{resize:vertical;min-height:100px}
+.form-submit{
+  width:100%;background:var(--burgundy);color:var(--cream);
+  padding:16px;border:none;border-radius:12px;
+  font-family:'Outfit',sans-serif;font-size:0.85rem;
+  font-weight:500;letter-spacing:2px;text-transform:uppercase;
+  cursor:pointer;transition:all 0.3s;
+}
+.form-submit:hover{background:var(--burgundy-deep);transform:translateY(-2px);box-shadow:0 8px 30px rgba(107,45,62,0.2)}
+
+/* ===== FOOTER ===== */
+footer{background:var(--dark);color:rgba(232,213,192,0.5);padding:80px 0 40px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:60px}
+.footer-brand .nav-logo{font-size:1.4rem;display:inline-block;margin-bottom:16px}
+.footer-brand p{font-size:0.88rem;line-height:1.7;max-width:280px}
+.footer-col h4{
+  font-family:'Outfit',sans-serif;font-size:0.75rem;
+  font-weight:600;letter-spacing:2px;text-transform:uppercase;
+  color:var(--rose-light);margin-bottom:20px;
+}
+.footer-col a{display:block;color:rgba(232,213,192,0.5);text-decoration:none;font-size:0.88rem;padding:5px 0;transition:color 0.3s}
+.footer-col a:hover{color:var(--rose-light)}
+.footer-bottom{
+  border-top:1px solid rgba(198,160,124,0.1);padding-top:32px;
+  display:flex;justify-content:space-between;align-items:center;font-size:0.8rem;
+}
+.footer-socials{display:flex;gap:16px}
+.footer-socials a{
+  width:40px;height:40px;border-radius:50%;
+  border:1px solid rgba(198,160,124,0.2);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--rose-light);text-decoration:none;transition:all 0.3s;font-size:0.9rem;
+}
+.footer-socials a:hover{background:rgba(198,160,124,0.1);border-color:var(--rose)}
+
+/* ===== WHATSAPP FLOAT ===== */
+.whatsapp-float{
+  position:fixed;bottom:28px;right:28px;z-index:999;
+  width:60px;height:60px;border-radius:50%;
+  background:#25D366;color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.6rem;text-decoration:none;
+  box-shadow:0 6px 24px rgba(37,211,102,0.35);
+  transition:all 0.3s;animation:whatsappPulse 2s infinite;
+}
+.whatsapp-float:hover{transform:scale(1.1);box-shadow:0 8px 32px rgba(37,211,102,0.45)}
+@keyframes whatsappPulse{
+  0%,100%{box-shadow:0 6px 24px rgba(37,211,102,0.35)}
+  50%{box-shadow:0 6px 24px rgba(37,211,102,0.55),0 0 0 12px rgba(37,211,102,0.1)}
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:1024px){
+  .services-grid{grid-template-columns:repeat(2,1fr)}
+  .why-grid{grid-template-columns:repeat(2,1fr)}
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  .nav-links,.nav-cta{display:none}
+  .hamburger{display:flex}
+  .mobile-menu{display:block}
+  .navbar{padding:14px 20px}
+  .navbar.scrolled{padding:10px 20px}
+  .hero{padding:140px 20px 80px;min-height:90vh}
+  .hero h1{font-size:2.6rem}
+  .hero-buttons{flex-direction:column;align-items:center}
+  .about-grid{grid-template-columns:1fr;gap:48px}
+  .about-visual{order:-1}
+  .services-grid{grid-template-columns:1fr}
+  .why-grid{grid-template-columns:1fr;gap:16px}
+  .why-card{padding:28px 20px}
+  .process-timeline{grid-template-columns:repeat(2,1fr);gap:40px}
+  .process-timeline::before{display:none}
+  .gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,200px)}
+  .gallery-item:nth-child(1){grid-column:span 2;grid-row:span 1}
+  .bridal-grid{grid-template-columns:1fr;gap:48px}
+  .bridal-visual{order:-1}
+  .testi-grid{grid-template-columns:1fr}
+  .pricing-row{padding:18px 24px}
+  .pricing-row.header{padding:14px 24px}
+  .contact-grid{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr}
+  .footer-bottom{flex-direction:column;gap:16px;text-align:center}
+}
+@media(max-width:480px){
+  .hero h1{font-size:2.1rem}
+  .gallery-grid{grid-template-columns:1fr;grid-template-rows:repeat(5,180px)}
+  .gallery-item:nth-child(1){grid-column:span 1}
+  .service-card{padding:32px 24px}
+  .contact-form{padding:32px 24px}
+  .bridal-pkg{flex-direction:column;align-items:flex-start;gap:12px}
+}
+</style>
+</head>
+<body>
+
+<!-- THREE.JS 3D BACKGROUND -->
+<canvas id="three-bg"></canvas>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a href="#" class="nav-logo">Divya Thakral <span>Nails</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#bridal">Bridal</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Book Now</a>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-overlay" id="mobileOverlay"></div>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about">About</a>
+  <a href="#services">Services</a>
+  <a href="#gallery">Gallery</a>
+  <a href="#bridal">Bridal</a>
+  <a href="#pricing">Pricing</a>
+  <a href="#contact">Book Now</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-content">
+    <div class="hero-sparkle reveal">Panipat's Premium Nail Studio</div>
+    <h1 class="reveal" style="transition-delay:0.1s">Your Nails,<br>Your <em>Statement</em></h1>
+    <p class="hero-tagline reveal" style="transition-delay:0.2s">Where beauty meets perfection — one nail at a time</p>
+    <p class="hero-desc reveal" style="transition-delay:0.3s">
+      Walk in with bare nails, walk out feeling like royalty. We don't just do nails here — we create tiny masterpieces that make you look at your hands and smile every single time.
+    </p>
+    <div class="hero-buttons reveal" style="transition-delay:0.4s">
+      <a href="#contact" class="btn-primary">Book Your Slot ✦</a>
+      <a href="#services" class="btn-secondary">Explore Services</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <span class="marquee-item">Gel Extensions</span>
+    <span class="marquee-item">Acrylic Nails</span>
+    <span class="marquee-item">Chrome Finish</span>
+    <span class="marquee-item">Bridal Packages</span>
+    <span class="marquee-item">Nail Art</span>
+    <span class="marquee-item">Ombre Nails</span>
+    <span class="marquee-item">French Tips</span>
+    <span class="marquee-item">Manicure & Pedicure</span>
+    <span class="marquee-item">Gel Extensions</span>
+    <span class="marquee-item">Acrylic Nails</span>
+    <span class="marquee-item">Chrome Finish</span>
+    <span class="marquee-item">Bridal Packages</span>
+    <span class="marquee-item">Nail Art</span>
+    <span class="marquee-item">Ombre Nails</span>
+    <span class="marquee-item">French Tips</span>
+    <span class="marquee-item">Manicure & Pedicure</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-visual reveal-left">
+        <div class="about-img-main">
+          <div class="nail-icon">💅</div>
+        </div>
+        <div class="about-float-card">
+          <div class="number">500+</div>
+          <div class="label">Happy Clients</div>
+        </div>
+      </div>
+      <div class="about-content reveal-right">
+        <span class="section-badge">Our Story</span>
+        <h2 class="section-title">Not Just a Nail Studio.<br>It's a <em>Feeling</em>.</h2>
+        <p class="section-subtitle">
+          Divya Thakral Nails started with a simple thought — every woman in Panipat deserves nails that make her feel confident, beautiful, and a little bit extra. No more settling for average.
+        </p>
+        <p class="section-subtitle" style="margin-top:16px">
+          We use only premium international products, follow strict hygiene standards, and treat every client like she's our only client. Because when you sit in our chair, this time is yours.
+        </p>
+        <div class="about-features">
+          <div class="about-feature">
+            <div class="about-feature-icon">✨</div>
+            <div class="about-feature-text">
+              <h4>Premium Products Only</h4>
+              <p>We use international-grade gels, polishes, and tools — no shortcuts, no cheap alternatives.</p>
+            </div>
+          </div>
+          <div class="about-feature">
+            <div class="about-feature-icon">🛡️</div>
+            <div class="about-feature-text">
+              <h4>100% Hygienic</h4>
+              <p>Every tool is sterilized before use. Fresh buffers, clean stations — your health comes first.</p>
+            </div>
+          </div>
+          <div class="about-feature">
+            <div class="about-feature-icon">💎</div>
+            <div class="about-feature-text">
+              <h4>Trained & Certified</h4>
+              <p>Divya is professionally trained in advanced nail techniques — extensions, art, sculpting, everything.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="container">
+    <div class="services-header reveal">
+      <span class="section-badge">What We Offer</span>
+      <h2 class="section-title">Services That Speak <em>for Themselves</em></h2>
+      <p class="section-subtitle">From simple gel polish to full bridal sets — we've got every kind of nail service you could ever want. And we do each one like it's our masterpiece.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal-scale" style="transition-delay:0.05s">
+        <div class="service-icon">💎</div>
+        <h3>Gel Nail Extensions</h3>
+        <p>Want longer, stronger nails that look absolutely natural? Our gel extensions are lightweight, flexible, and last 3-4 weeks easily. No damage to your real nails. They look so real, people won't believe they're extensions.</p>
+        <div class="service-price">₹800 – ₹2,500 <span>/ set</span></div>
+        <ul class="service-details">
+          <li>Lasts 3-4 weeks with proper care</li>
+          <li>Available in all shapes — coffin, almond, square, stiletto</li>
+          <li>Natural-looking finish</li>
+          <li>Safe removal included</li>
+        </ul>
+      </div>
+      <div class="service-card reveal-scale" style="transition-delay:0.1s">
+        <div class="service-icon">🔮</div>
+        <h3>Acrylic Nail Extensions</h3>
+        <p>The strongest extensions in the game. If you want dramatic length and total durability — acrylics are your answer. Perfect for those who love bold, long nails that can handle anything life throws at them.</p>
+        <div class="service-price">₹1,000 – ₹3,000 <span>/ set</span></div>
+        <ul class="service-details">
+          <li>Super strong and long-lasting</li>
+          <li>Custom length — short to extra long</li>
+          <li>Can be shaped into any design</li>
+          <li>Infill available every 2-3 weeks</li>
+        </ul>
+      </div>
+      <div class="service-card reveal-scale" style="transition-delay:0.15s">
+        <div class="service-icon">🎨</div>
+        <h3>Custom Nail Art</h3>
+        <p>This is where the magic happens. From tiny flowers to full character designs, from minimalist lines to 3D embellishments — tell us what you imagine, and we'll paint it on your nails. Every design is hand-done, never stamped.</p>
+        <div class="service-price">₹200 – ₹2,000 <span>/ nail</span></div>
+        <ul class="service-details">
+          <li>Hand-painted designs (no stamps)</li>
+          <li>3D nail art & embellishments</li>
+          <li>Character art, florals, geometric, abstract</li>
+          <li>Show us a picture — we'll recreate it</li>
+        </ul>
+      </div>
+      <div class="service-card reveal-scale" style="transition-delay:0.2s">
+        <div class="service-icon">✨</div>
+        <h3>Gel Polish & Shellac</h3>
+        <p>Don't want extensions but still want that salon-perfect, chip-free shine? Our gel polish gives you a glass-like finish that stays perfect for 2-3 weeks. No peeling, no chipping — just pure glossy beauty on your natural nails.</p>
+        <div class="service-price">₹400 – ₹800 <span>/ set</span></div>
+        <ul class="service-details">
+          <li>Chip-free for 2-3 weeks</li>
+          <li>100+ color options available</li>
+          <li>UV/LED cured for instant dry</li>
+          <li>Safe removal — no damage</li>
+        </ul>
+      </div>
+      <div class="service-card reveal-scale" style="transition-delay:0.25s">
+        <div class="service-icon">🪞</div>
+        <h3>Chrome & Mirror Nails</h3>
+        <p>The trend that breaks the internet. Chrome nails give you that liquid metal, mirror-like finish that catches light from every angle. Choose from silver, rose gold, holographic, or any color chrome — your nails will literally glow.</p>
+        <div class="service-price">₹600 – ₹1,500 <span>/ set</span></div>
+        <ul class="service-details">
+          <li>Mirror-like reflective finish</li>
+          <li>Rose gold, silver, holographic options</li>
+          <li>Can be combined with nail art</li>
+          <li>Instagram-worthy results guaranteed</li>
+        </ul>
+      </div>
+      <div class="service-card reveal-scale" style="transition-delay:0.3s">
+        <div class="service-icon">🌸</div>
+        <h3>Ombre & Gradient Nails</h3>
+        <p>That beautiful blend of two or more colors fading into each other — soft, elegant, and absolutely stunning. Whether you want baby pink to white, or something bold and colourful — ombre nails are always a good idea.</p>
+        <div class="service-price">₹500 – ₹1,200 <span>/ set</span></div>
+        <ul class="service-details">
+          <li>Smooth, seamless color blending</li>
+          <li>French ombre (baby boomer) available</li>
+          <li>Works on natural nails & extensions</li>
+          <li>Customise any color combination</li>
+        </ul>
+      </div>
+      <div class="service-card reveal-scale" style="transition-delay:0.35s">
+        <div class="service-icon">🤍</div>
+        <h3>French Tips</h3>
+        <p>The classic that never goes out of style. Clean, elegant, and timeless. We do traditional white tips, coloured tips, V-shaped French, micro French, and every modern twist you can think of. Perfect for everyday or special occasions.</p>
+        <div class="service-price">₹400 – ₹1,000 <span>/ set</span></div>
+        <ul class="service-details">
+          <li>Classic & modern French styles</li>
+          <li>V-French, micro-French, coloured tips</li>
+          <li>Available on natural nails & extensions</li>
+          <li>Clean, salon-perfect lines every time</li>
+        </ul>
+      </div>
+      <div class="service-card reveal-scale" style="transition-delay:0.4s">
+        <div class="service-icon">🧴</div>
+        <h3>Luxury Manicure</h3>
+        <p>Not just a basic manicure — this is the full experience. Hot towel treatment, cuticle care, hand massage, nail shaping, and a flawless polish finish. Your hands will feel softer than they've ever felt, and your nails will look picture-perfect.</p>
+        <div class="service-price">₹300 – ₹800 <span>/ session</span></div>
+        <ul class="service-details">
+          <li>Deep cleansing & exfoliation</li>
+          <li>Cuticle care & nail shaping</li>
+          <li>Relaxing hand & arm massage</li>
+          <li>Choice of regular or gel polish finish</li>
+        </ul>
+      </div>
+      <div class="service-card reveal-scale" style="transition-delay:0.45s">
+        <div class="service-icon">🦶</div>
+        <h3>Luxury Pedicure</h3>
+        <p>Give your feet the love they deserve. Our luxury pedicure includes a warm soak, dead skin removal, heel treatment, nail care, and a heavenly foot massage. You'll literally float out of here. Perfect before any big event — or just because you deserve it.</p>
+        <div class="service-price">₹400 – ₹1,000 <span>/ session</span></div>
+        <ul class="service-details">
+          <li>Warm soak & softening treatment</li>
+          <li>Dead skin & callus removal</li>
+          <li>Deep moisturising foot massage</li>
+          <li>Toe nail shaping & polish</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY CHOOSE US -->
+<section class="why-choose">
+  <div class="container">
+    <div class="why-header reveal">
+      <span class="section-badge">Why Divya Thakral Nails?</span>
+      <h2 class="section-title">What Makes Us <em>Different</em></h2>
+      <p class="section-subtitle">There are many nail places. But there's only one Divya Thakral Nails. Here's why hundreds of women in Panipat trust us with their nails.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal" style="transition-delay:0.05s">
+        <div class="why-card-icon">🧼</div>
+        <h3>Hygiene First. Always.</h3>
+        <p>Every tool is sterilized. Every surface is cleaned. Fresh files, fresh buffers — every single time. Your safety is not optional, it's our rule.</p>
+      </div>
+      <div class="why-card reveal" style="transition-delay:0.1s">
+        <div class="why-card-icon">🎯</div>
+        <h3>Precision Work</h3>
+        <p>We don't rush. Every nail is shaped, filed, and finished with the kind of attention to detail that you can see and feel. No shortcuts.</p>
+      </div>
+      <div class="why-card reveal" style="transition-delay:0.15s">
+        <div class="why-card-icon">💬</div>
+        <h3>We Actually Listen</h3>
+        <p>You know what you want. We listen, we understand, and we deliver exactly what you pictured — or even better. Your vision, our skill.</p>
+      </div>
+      <div class="why-card reveal" style="transition-delay:0.2s">
+        <div class="why-card-icon">💰</div>
+        <h3>Honest Pricing</h3>
+        <p>No hidden charges. No surprise bills. We tell you the price upfront, and that's exactly what you pay. Premium quality at fair prices.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process">
+  <div class="container">
+    <div class="process-header reveal">
+      <span class="section-badge">How It Works</span>
+      <h2 class="section-title">From Booking to <em>Beautiful</em></h2>
+      <p class="section-subtitle">Getting your dream nails is easier than you think. Here's how it works — simple, smooth, and stress-free.</p>
+    </div>
+    <div class="process-timeline">
+      <div class="process-step reveal" style="transition-delay:0.05s">
+        <div class="process-num">01</div>
+        <h3>Book Your Slot</h3>
+        <p>Call us or WhatsApp to pick your date and time. We'll confirm instantly — no waiting, no confusion.</p>
+      </div>
+      <div class="process-step reveal" style="transition-delay:0.15s">
+        <div class="process-num">02</div>
+        <h3>Consultation</h3>
+        <p>Show us your inspo photos, tell us what you like. We'll suggest the best options for your nail type and lifestyle.</p>
+      </div>
+      <div class="process-step reveal" style="transition-delay:0.25s">
+        <div class="process-num">03</div>
+        <h3>The Magic Happens</h3>
+        <p>Sit back, relax, and watch your nails transform. We take our time to make sure every detail is perfect.</p>
+      </div>
+      <div class="process-step reveal" style="transition-delay:0.35s">
+        <div class="process-num">04</div>
+        <h3>Walk Out Glowing</h3>
+        <p>Take a million photos, show everyone, feel amazing. That's the Divya Thakral Nails experience.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+  <div class="container">
+    <div class="gallery-header reveal">
+      <span class="section-badge">Our Work</span>
+      <h2 class="section-title">See It to <em>Believe It</em></h2>
+      <p class="section-subtitle">Every set of nails tells a story. Here's some of our recent work — all done right here in Panipat.</p>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item reveal-scale" style="transition-delay:0.05s">
+        <div class="g-inner">💅<span class="g-label">Bridal Set — Rose Gold Chrome</span></div>
+      </div>
+      <div class="gallery-item reveal-scale" style="transition-delay:0.1s">
+        <div class="g-inner">🌸<span class="g-label">Floral Nail Art</span></div>
+      </div>
+      <div class="gallery-item reveal-scale" style="transition-delay:0.15s">
+        <div class="g-inner">✨<span class="g-label">Mirror Chrome Set</span></div>
+      </div>
+      <div class="gallery-item reveal-scale" style="transition-delay:0.2s">
+        <div class="g-inner">🎨<span class="g-label">French Ombre</span></div>
+      </div>
+      <div class="gallery-item reveal-scale" style="transition-delay:0.25s">
+        <div class="g-inner">💎<span class="g-label">3D Embellished Art</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BRIDAL -->
+<section class="bridal" id="bridal">
+  <div class="container">
+    <div class="bridal-grid">
+      <div class="bridal-content reveal-left">
+        <span class="section-badge">Bridal Specials</span>
+        <h2 class="section-title">Your Shaadi, Your <em>Perfect Nails</em></h2>
+        <p class="section-subtitle">
+          Your wedding photos will last forever — and your hands will be in almost every single one. We create bridal nail sets that match your outfit, your jewellery, and your entire vibe. From mehendi ceremony to reception, we've got packages for every function.
+        </p>
+        <p class="section-subtitle" style="margin-top:12px;font-size:0.92rem">
+          We also do nails for the bride's squad — sisters, besties, mom — everyone gets to feel special. Book early for wedding season because our slots fill up fast!
+        </p>
+        <div class="bridal-packages">
+          <div class="bridal-pkg reveal" style="transition-delay:0.1s">
+            <div class="bridal-pkg-info">
+              <h4>Mehendi Ceremony</h4>
+              <p>Simple elegance — gel polish + basic art</p>
+            </div>
+            <div class="bridal-pkg-price">₹1,500</div>
+          </div>
+          <div class="bridal-pkg reveal" style="transition-delay:0.15s">
+            <div class="bridal-pkg-info">
+              <h4>Sangeet Night</h4>
+              <p>Bold & sparkly — extensions + chrome/glitter art</p>
+            </div>
+            <div class="bridal-pkg-price">₹3,000</div>
+          </div>
+          <div class="bridal-pkg reveal" style="transition-delay:0.2s">
+            <div class="bridal-pkg-info">
+              <h4>Wedding Day</h4>
+              <p>Full bridal set — premium extensions + custom art + stones</p>
+            </div>
+            <div class="bridal-pkg-price">₹4,500</div>
+          </div>
+          <div class="bridal-pkg reveal" style="transition-delay:0.25s">
+            <div class="bridal-pkg-info">
+              <h4>Complete Bridal Package</h4>
+              <p>All functions covered — 3 different sets + bride squad discounts</p>
+            </div>
+            <div class="bridal-pkg-price">₹8,000</div>
+          </div>
+        </div>
+      </div>
+      <div class="bridal-visual reveal-right">
+        <div class="bridal-img">
+          <div class="bridal-emoji">👰</div>
+          <div class="bridal-badge">Most Popular</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="container">
+    <div class="testi-header reveal">
+      <span class="section-badge">What Clients Say</span>
+      <h2 class="section-title">Real Women, <em>Real Words</em></h2>
+      <p class="section-subtitle">Don't just take our word for it — hear from the women who trust us with their nails again and again.</p>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card reveal" style="transition-delay:0.05s">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">"</div>
+        <p>I was so nervous about getting extensions for the first time, but Divya made me feel so comfortable. She explained everything, showed me options, and the result was AMAZING. My nails lasted a full month! Best decision ever.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">P</div>
+          <div class="testi-author-info">
+            <h4>Priyanka S.</h4>
+            <span>Gel Extensions Client</span>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal" style="transition-delay:0.15s">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">"</div>
+        <p>Got my bridal nails done here and oh my god — every aunty at the wedding was asking where I got them done. The rose gold chrome with tiny flowers matched my lehenga perfectly. Divya is a true artist.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">N</div>
+          <div class="testi-author-info">
+            <h4>Neha M.</h4>
+            <span>Bridal Package Client</span>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card reveal" style="transition-delay:0.25s">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">"</div>
+        <p>Finally found someone in Panipat who actually knows what they're doing with nails. The hygiene is top-notch, the products are genuine, and the designs are exactly what I see on Instagram. I'm a regular now — no going anywhere else!</p>
+        <div class="testi-author">
+          <div class="testi-avatar">A</div>
+          <div class="testi-author-info">
+            <h4>Anjali R.</h4>
+            <span>Regular Client</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <div class="pricing-header reveal">
+      <span class="section-badge">Pricing</span>
+      <h2 class="section-title">Transparent <em>Pricing</em></h2>
+      <p class="section-subtitle">No hidden charges. No surprises. What you see is what you pay. Premium quality at honest prices.</p>
+    </div>
+    <div class="pricing-table reveal">
+      <div class="pricing-row header">
+        <span>Service</span>
+        <span>Price Range</span>
+      </div>
+      <div class="pricing-row"><span class="pricing-service">Gel Polish (Natural Nails)</span><span class="pricing-range">₹400 – ₹800</span></div>
+      <div class="pricing-row"><span class="pricing-service">Gel Nail Extensions</span><span class="pricing-range">₹800 – ₹2,500</span></div>
+      <div class="pricing-row"><span class="pricing-service">Acrylic Nail Extensions</span><span class="pricing-range">₹1,000 – ₹3,000</span></div>
+      <div class="pricing-row"><span class="pricing-service">Custom Nail Art (per nail)</span><span class="pricing-range">₹200 – ₹2,000</span></div>
+      <div class="pricing-row"><span class="pricing-service">Chrome / Mirror Nails</span><span class="pricing-range">₹600 – ₹1,500</span></div>
+      <div class="pricing-row"><span class="pricing-service">Ombre / Gradient Nails</span><span class="pricing-range">₹500 – ₹1,200</span></div>
+      <div class="pricing-row"><span class="pricing-service">French Tips</span><span class="pricing-range">₹400 – ₹1,000</span></div>
+      <div class="pricing-row"><span class="pricing-service">Luxury Manicure</span><span class="pricing-range">₹300 – ₹800</span></div>
+      <div class="pricing-row"><span class="pricing-service">Luxury Pedicure</span><span class="pricing-range">₹400 – ₹1,000</span></div>
+      <div class="pricing-row"><span class="pricing-service">Nail Repair / Fix</span><span class="pricing-range">₹100 – ₹300</span></div>
+      <div class="pricing-row"><span class="pricing-service">Extension Removal (Safe)</span><span class="pricing-range">₹200 – ₹500</span></div>
+      <div class="pricing-row"><span class="pricing-service">Bridal Complete Package</span><span class="pricing-range">₹8,000+</span></div>
+      <p class="pricing-note">* Final price depends on nail length, design complexity, and materials used. WhatsApp us your inspo for an exact quote!</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <div class="container">
+    <div class="faq-header reveal">
+      <span class="section-badge">Got Questions?</span>
+      <h2 class="section-title">We've Got <em>Answers</em></h2>
+      <p class="section-subtitle">Everything first-timers (and regulars) want to know — answered honestly.</p>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item reveal">
+        <div class="faq-q"><span>Do nail extensions damage my natural nails?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a"><p>Not if done properly and removed safely — which is exactly how we do it. We never force-pull extensions. We soak them off gently, and your natural nails stay healthy underneath. We even apply a strengthening treatment after removal.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-q"><span>How long do gel extensions last?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a"><p>With proper care, gel extensions last 3-4 weeks easily. Avoid using your nails as tools (don't open cans with them!), wear gloves while cleaning, and they'll stay perfect. You can come in for infills instead of getting a whole new set.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-q"><span>I've never gotten extensions before. Will it hurt?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a"><p>Not at all! There's zero pain involved. You might feel a slight warmth during the curing process under the UV lamp, but that's it. Most of our clients actually find the whole process relaxing. We make sure first-timers feel completely comfortable.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-q"><span>Can I choose any design I see on Instagram?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a"><p>Absolutely! Save the pictures, screenshot the reels, and bring them to us. We can recreate most designs you see online. If something isn't possible, we'll honestly tell you and suggest an equally stunning alternative. No false promises.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-q"><span>Do I need to book in advance?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a"><p>We recommend booking at least 1-2 days in advance, especially on weekends and during wedding season. Walk-ins are welcome if we have availability, but booking ensures you get your preferred time slot.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <div class="faq-q"><span>What products do you use?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a"><p>We use only premium, internationally recognized nail products. Our gels, polishes, and acrylics are all sourced from trusted professional brands. No local-market cheap alternatives. Your nails deserve the best, and that's what they get.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container reveal">
+    <h2>Ready for Nails That Make<br>People <em>Stop and Stare</em>?</h2>
+    <p>Book your appointment today. Your dream nails are just one WhatsApp message away.</p>
+    <div class="cta-buttons">
+      <a href="https://wa.me/91XXXXXXXXXX?text=Hi%20Divya!%20I'd%20like%20to%20book%20an%20appointment%20💅" class="btn-light" target="_blank">WhatsApp Us ✦</a>
+      <a href="#contact" class="btn-outline-light">Fill the Form</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="reveal-left">
+        <span class="section-badge">Get in Touch</span>
+        <h2 class="section-title">Let's Make Your<br>Nails <em>Happen</em></h2>
+        <p class="section-subtitle" style="margin-bottom:40px">Whether you have a question, want a quote, or are ready to book — we're just a message away. We reply fast, promise!</p>
+        <div class="contact-info">
+          <div class="contact-item">
+            <div class="contact-icon">📍</div>
+            <div>
+              <h4>Studio Location</h4>
+              <p>Panipat, Haryana<br><span style="font-size:0.82rem;color:var(--text-light)">(Exact address shared on booking confirmation)</span></p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📱</div>
+            <div>
+              <h4>WhatsApp / Call</h4>
+              <p><a href="tel:+91XXXXXXXXXX">+91 XXXXX XXXXX</a><br><span style="font-size:0.82rem">Replies within 30 minutes</span></p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">🕐</div>
+            <div>
+              <h4>Working Hours</h4>
+              <p>Monday – Saturday: 10:00 AM – 7:00 PM<br>Sunday: By Appointment Only</p>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon">📸</div>
+            <div>
+              <h4>Follow Us</h4>
+              <p><a href="#" target="_blank">@divyathakralnails on Instagram</a><br><span style="font-size:0.82rem">See our latest work daily</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <div class="contact-form">
+          <h3>Book Your Appointment</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Your Name</label>
+              <input type="text" placeholder="Enter your name">
+            </div>
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input type="tel" placeholder="+91 XXXXX XXXXX">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Service You're Interested In</label>
+            <select>
+              <option value="">Select a service...</option>
+              <option>Gel Nail Extensions</option>
+              <option>Acrylic Nail Extensions</option>
+              <option>Custom Nail Art</option>
+              <option>Gel Polish / Shellac</option>
+              <option>Chrome / Mirror Nails</option>
+              <option>Ombre / Gradient Nails</option>
+              <option>French Tips</option>
+              <option>Luxury Manicure</option>
+              <option>Luxury Pedicure</option>
+              <option>Bridal Package</option>
+              <option>Other / Not Sure</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Preferred Date</label>
+            <input type="date">
+          </div>
+          <div class="form-group">
+            <label>Any Special Requests?</label>
+            <textarea placeholder="Share your inspo, design ideas, or any questions..."></textarea>
+          </div>
+          <button class="form-submit" type="button" onclick="alert('Thank you! We\'ll confirm your appointment on WhatsApp within 30 minutes 💅')">Send Booking Request ✦</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo">Divya Thakral <span>Nails</span></a>
+        <p>Panipat's most loved nail studio. Premium nail extensions, custom art, and bridal packages — done with love, precision, and the best products in the business.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a href="#about">About Us</a>
+        <a href="#services">Services</a>
+        <a href="#gallery">Our Work</a>
+        <a href="#pricing">Pricing</a>
+      </div>
+      <div class="footer-col">
+        <h4>Top Services</h4>
+        <a href="#services">Gel Extensions</a>
+        <a href="#services">Acrylic Nails</a>
+        <a href="#services">Nail Art</a>
+        <a href="#bridal">Bridal Package</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <a href="#">Panipat, Haryana</a>
+        <a href="tel:+91XXXXXXXXXX">+91 XXXXX XXXXX</a>
+        <a href="#">@divyathakralnails</a>
+        <a href="#contact">Book Now</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Divya Thakral Nails. All rights reserved.</span>
+      <div class="footer-socials">
+        <a href="#" title="Instagram">📸</a>
+        <a href="#" title="WhatsApp">💬</a>
+        <a href="#" title="Facebook">📘</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- WHATSAPP FLOATING BUTTON -->
+<a href="https://wa.me/91XXXXXXXXXX?text=Hi%20Divya!%20I'd%20like%20to%20book%20an%20appointment%20💅" class="whatsapp-float" target="_blank" title="Chat on WhatsApp">💬</a>
+
+<script>
+// ===== THREE.JS 3D BACKGROUND =====
+(function(){
+  const canvas = document.getElementById('three-bg');
+  const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
+  camera.position.z = 50;
+
+  // Sparkly nail glitter particles
+  const particleCount = window.innerWidth < 768 ? 400 : 800;
+  const geometry = new THREE.BufferGeometry();
+  const positions = new Float32Array(particleCount * 3);
+  const colors = new Float32Array(particleCount * 3);
+  const sizes = new Float32Array(particleCount);
+  const speeds = new Float32Array(particleCount);
+  const offsets = new Float32Array(particleCount);
+
+  const palette = [
+    [0.78, 0.63, 0.49],
+    [0.42, 0.18, 0.24],
+    [0.91, 0.84, 0.75],
+    [0.79, 0.66, 0.31],
+    [0.62, 0.48, 0.56],
+    [0.96, 0.88, 0.82],
+    [0.85, 0.72, 0.58],
+  ];
+
+  for(let i=0;i<particleCount;i++){
+    positions[i*3] = (Math.random()-0.5)*120;
+    positions[i*3+1] = (Math.random()-0.5)*120;
+    positions[i*3+2] = (Math.random()-0.5)*60;
+    const c = palette[Math.floor(Math.random()*palette.length)];
+    colors[i*3] = c[0]; colors[i*3+1] = c[1]; colors[i*3+2] = c[2];
+    sizes[i] = Math.random()*2.5 + 0.5;
+    speeds[i] = Math.random()*0.3 + 0.1;
+    offsets[i] = Math.random()*Math.PI*2;
+  }
+
+  geometry.setAttribute('position', new THREE.BufferAttribute(positions,3));
+  geometry.setAttribute('color', new THREE.BufferAttribute(colors,3));
+  geometry.setAttribute('size', new THREE.BufferAttribute(sizes,1));
+
+  const vertexShader = `
+    attribute float size;
+    varying vec3 vColor;
+    void main(){
+      vColor = color;
+      vec4 mvPosition = modelViewMatrix * vec4(position,1.0);
+      gl_PointSize = size * (300.0 / -mvPosition.z);
+      gl_Position = projectionMatrix * mvPosition;
+    }
+  `;
+  const fragmentShader = `
+    varying vec3 vColor;
+    void main(){
+      float d = length(gl_PointCoord - vec2(0.5));
+      if(d > 0.5) discard;
+      float glow = 1.0 - smoothstep(0.0, 0.5, d);
+      float sparkle = pow(glow, 3.0);
+      gl_FragColor = vec4(vColor, sparkle * 0.6);
+    }
+  `;
+
+  const material = new THREE.ShaderMaterial({
+    vertexShader, fragmentShader,
+    transparent:true, vertexColors:true,
+    depthWrite:false, blending:THREE.AdditiveBlending,
+  });
+
+  const particles = new THREE.Points(geometry, material);
+  scene.add(particles);
+
+  // Floating gem shapes
+  const gemGroup = new THREE.Group();
+  scene.add(gemGroup);
+
+  const gemMat1 = new THREE.MeshBasicMaterial({color:0xC6A07C, transparent:true, opacity:0.06, wireframe:true});
+  const gemMat2 = new THREE.MeshBasicMaterial({color:0x6B2D3E, transparent:true, opacity:0.04, wireframe:true});
+
+  const gemCount = window.innerWidth < 768 ? 6 : 12;
+  for(let i=0;i<gemCount;i++){
+    const geo = i%3===0 
+      ? new THREE.OctahedronGeometry(Math.random()*3+1.5)
+      : i%3===1 ? new THREE.TetrahedronGeometry(Math.random()*2.5+1)
+      : new THREE.DodecahedronGeometry(Math.random()*2+1);
+    const mesh = new THREE.Mesh(geo, i%2===0?gemMat1:gemMat2);
+    mesh.position.set((Math.random()-0.5)*80,(Math.random()-0.5)*80,(Math.random()-0.5)*30);
+    mesh.userData = {
+      rotSpeed:{x:Math.random()*0.005,y:Math.random()*0.008,z:Math.random()*0.003},
+      floatSpeed:Math.random()*0.4+0.2,
+      floatAmp:Math.random()*3+1,
+      startY:mesh.position.y,
+      offset:Math.random()*Math.PI*2
+    };
+    gemGroup.add(mesh);
+  }
+
+  // Torus rings
+  for(let i=0;i<4;i++){
+    const tk = new THREE.Mesh(
+      new THREE.TorusGeometry(Math.random()*4+3,0.3,8,40),
+      new THREE.MeshBasicMaterial({color:i%2?0xC6A07C:0x9E7B8F,transparent:true,opacity:0.03,wireframe:true})
+    );
+    tk.position.set((Math.random()-0.5)*70,(Math.random()-0.5)*70,(Math.random()-0.5)*20);
+    tk.rotation.set(Math.random()*Math.PI,Math.random()*Math.PI,0);
+    tk.userData = {rotSpeed:{x:Math.random()*0.002,y:Math.random()*0.003}};
+    gemGroup.add(tk);
+  }
+
+  let scrollY = 0, mouseX = 0, mouseY = 0;
+  window.addEventListener('scroll',()=>{scrollY=window.pageYOffset},{passive:true});
+  window.addEventListener('mousemove',e=>{
+    mouseX=(e.clientX/window.innerWidth-0.5)*2;
+    mouseY=(e.clientY/window.innerHeight-0.5)*2;
+  },{passive:true});
+
+  function animate(){
+    requestAnimationFrame(animate);
+    const t = Date.now()*0.001;
+
+    const pos = geometry.attributes.position.array;
+    for(let i=0;i<particleCount;i++){
+      pos[i*3+1] += Math.sin(t*speeds[i]+offsets[i])*0.015;
+      pos[i*3] += Math.cos(t*speeds[i]*0.7+offsets[i])*0.008;
+    }
+    geometry.attributes.position.needsUpdate = true;
+
+    particles.rotation.y = t*0.02 + mouseX*0.05;
+    particles.rotation.x = Math.sin(t*0.1)*0.05 + mouseY*0.03;
+
+    gemGroup.children.forEach(mesh=>{
+      const d=mesh.userData;
+      if(d.rotSpeed){
+        mesh.rotation.x+=d.rotSpeed.x;
+        mesh.rotation.y+=d.rotSpeed.y;
+        if(d.rotSpeed.z)mesh.rotation.z+=d.rotSpeed.z;
+      }
+      if(d.floatSpeed){
+        mesh.position.y=d.startY+Math.sin(t*d.floatSpeed+d.offset)*d.floatAmp;
+      }
+    });
+
+    camera.position.y = -scrollY*0.02;
+    camera.position.x = mouseX*2;
+
+    renderer.render(scene,camera);
+  }
+  animate();
+
+  window.addEventListener('resize',()=>{
+    camera.aspect=window.innerWidth/window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth,window.innerHeight);
+  });
+})();
+
+// ===== NAVBAR SCROLL =====
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>60);
+},{passive:true});
+
+// ===== MOBILE MENU =====
+const hamburger=document.getElementById('hamburger');
+const mobileMenu=document.getElementById('mobileMenu');
+const mobileOverlay=document.getElementById('mobileOverlay');
+function toggleMenu(){
+  hamburger.classList.toggle('active');
+  mobileMenu.classList.toggle('active');
+  mobileOverlay.classList.toggle('active');
+  document.body.style.overflow=mobileMenu.classList.contains('active')?'hidden':'';
+}
+hamburger.addEventListener('click',toggleMenu);
+mobileOverlay.addEventListener('click',toggleMenu);
+mobileMenu.querySelectorAll('a').forEach(a=>a.addEventListener('click',toggleMenu));
+
+// ===== SCROLL REVEAL =====
+const revealObserver=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{if(entry.isIntersecting)entry.target.classList.add('visible')});
+},{threshold:0.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale').forEach(el=>revealObserver.observe(el));
+
+// ===== FAQ ACCORDION =====
+document.querySelectorAll('.faq-q').forEach(q=>{
+  q.addEventListener('click',()=>{
+    const item=q.parentElement;
+    const wasActive=item.classList.contains('active');
+    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('active'));
+    if(!wasActive)item.classList.add('active');
+  });
+});
+
+// ===== SMOOTH SCROLL =====
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const target=document.querySelector(a.getAttribute('href'));
+    if(target){
+      const y=target.getBoundingClientRect().top+window.pageYOffset-80;
+      window.scrollTo({top:y,behavior:'smooth'});
+    }
+  });
+});
+</script>
+</body>
+</html>
